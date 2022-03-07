@@ -1,14 +1,22 @@
+import {useEffect} from "react"
+import {useDispatch, useSelector} from "react-redux"
+import {fetchData} from "../redux/apis/api-actions"
 import {Card} from "./index"
-import PropTypes from "prop-types"
 
 /**
  * 👋🏻 List Component
- * @param entries
- * @param loading
  * @returns {JSX.Element}
  * @constructor
  */
-const List = ({response: {entries}, loading}) => {
+const List = () => {
+    /** ✨ Hooks */
+    const dispatch = useDispatch()
+    const {categories, loading} = useSelector(({apiLists}) => apiLists)
+
+    useEffect(() => {
+        dispatch(fetchData("entries", {params: {category: "Animals"}}, "entries"))
+    }, [])
+
     /** ✨ Render */
     if (loading) {
         return <div className="mt-2 grid md:grid-cols-3 gap-4 animate-pulse">
@@ -19,7 +27,7 @@ const List = ({response: {entries}, loading}) => {
     }
 
     /** ✨ Render */
-    if (!entries) {
+    if (!categories) {
         return <p className="text-xl text-center text-slate-600">Something wrong 😔</p>
     }
 
@@ -27,17 +35,9 @@ const List = ({response: {entries}, loading}) => {
     return <div className="mb-10">
         <h3 className="font-semibold text-xl text-slate-600 mb-3">List API</h3>
         <ul className="grid gap-4 md:grid-cols-3">
-            {entries && entries.map((o, i) => <Card key={i} {...o}/>)}
+            {categories && categories.map((o, i) => <Card key={i} {...o}/>)}
         </ul>
     </div>
-}
-
-/**
- * 👋🏻 Check props
- */
-List.propTypes = {
-    entries: PropTypes.arrayOf(PropTypes.object),
-    loading: PropTypes.bool.isRequired
 }
 
 /**

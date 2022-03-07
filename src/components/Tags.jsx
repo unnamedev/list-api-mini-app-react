@@ -1,22 +1,23 @@
-import useAxios from "../hooks/useAxios"
 import {useEffect} from "react"
-import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchData} from "../redux/apis/api-actions";
 
 /**
  * 👋🏻 Tags Component
  * @returns {JSX.Element}
  * @constructor
  */
-const Tags = ({fetchData: fetchTag}) => {
+const Tags = () => {
     /** ✨ Hooks */
-    const {fetchData, response: {categories}, loading} = useAxios("categories")
+    const dispatch = useDispatch()
+    const {tags, loading} = useSelector(({apiLists}) => apiLists)
 
     useEffect(() => {
-        fetchData()
+        dispatch(fetchData("categories", "", "categories"))
     }, [])
 
     /** ✨ Functions */
-    const onClickTag = (category) => fetchTag({params: {category}})
+    const onClickTag = (category) => dispatch(fetchData("entries", {params: {category}}, "entries"))
 
     /** ✨ Render */
     if (loading) {
@@ -29,7 +30,7 @@ const Tags = ({fetchData: fetchTag}) => {
 
     /** ✨ Render */
     return <div className="flex flex-wrap justify-center gap-2 py-5">
-        {categories && categories.map(tag =>
+        {tags && tags.map(tag =>
             <button
                 key={tag}
                 className="bg-[#111827] text-white p-2 rounded-sm hover:bg-[#313e5b]"
@@ -39,13 +40,6 @@ const Tags = ({fetchData: fetchTag}) => {
             </button>
         )}
     </div>
-}
-
-/**
- * 👋🏻 Check props
- */
-Tags.propTypes = {
-    fetchTag: PropTypes.func
 }
 
 export default Tags

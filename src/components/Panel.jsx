@@ -1,21 +1,23 @@
-import {HiOutlineSearch} from "react-icons/hi"
 import {useState} from "react"
-import PropTypes from "prop-types"
+import {useDispatch} from "react-redux"
+import {HiOutlineSearch} from "react-icons/hi"
+import {fetchData} from "../redux/apis/api-actions"
 
 /**
- * Jumbotron Component
+ * 👋🏻 Panel Component
  * @returns {JSX.Element}
  * @constructor
  */
-const Panel = ({fetchData}) => {
+const Panel = () => {
     /** ✨ Hooks */
+    const dispatch = useDispatch()
     const [value, setValue] = useState("")
 
     /** ✨ Functions */
     const handleSubmit = (e) => {
         e.preventDefault()
         if (value.length === 0) return
-        fetchData({params: {title: value}})
+        dispatch(fetchData("entries", {params: {title: value}}, "entries"))
         setValue("")
     }
 
@@ -40,13 +42,6 @@ const Panel = ({fetchData}) => {
             </button>
         </form>
     </div>
-}
-
-/**
- * 👋🏻 Check props
- */
-Panel.propTypes = {
-    fetchData: PropTypes.func
 }
 
 export default Panel
