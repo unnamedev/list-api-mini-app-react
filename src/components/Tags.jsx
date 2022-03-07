@@ -29,16 +29,20 @@ const Tags = () => {
     }
 
     /** ✨ Render */
-    return <div className="flex flex-wrap justify-center gap-2 py-5">
-        {tags && tags.map(tag =>
-            <button
-                key={tag}
-                className="bg-[#111827] text-white p-2 rounded-sm hover:bg-[#313e5b]"
-                onClick={() => onClickTag(tag)}
-            >
-                {tag}
-            </button>
-        )}
+    return <div className="py-5">
+        <h3 className="font-semibold text-xl text-slate-600 mb-3">Tags</h3>
+        <ul className="flex flex-wrap justify-center gap-2">
+            {tags && tags.map(tag =>
+                <li key={tag}>
+                    <button
+                        className="bg-[#111827] text-white p-2 rounded-sm hover:bg-[#313e5b]"
+                        onClick={() => onClickTag(tag)}
+                    >
+                        {tag}
+                    </button>
+                </li>
+            )}
+        </ul>
     </div>
 }
 

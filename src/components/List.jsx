@@ -33,7 +33,7 @@ const List = () => {
 
     /** ✨ Render */
     return <div className="mb-10">
-        <h3 className="font-semibold text-xl text-slate-600 mb-3">List API</h3>
+        <h3 className="font-semibold text-xl text-slate-600 mb-3">List API {categories.length !== 0 ? `(${categories.length})` : ""}</h3>
         <ul className="grid gap-4 md:grid-cols-3">
             {categories && categories.map((o, i) => <Card key={i} {...o}/>)}
         </ul>
